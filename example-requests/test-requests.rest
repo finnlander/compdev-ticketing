@@ -1,0 +1,53 @@
+
+@baseUrl = https://ticketing.local/api
+
+POST {{baseUrl}}/users/signup
+Content-Type: application/json
+
+{
+    "email": "example7@example.com",
+    "password": "1234"
+}
+
+###
+
+# @name createTicket
+POST {{baseUrl}}/tickets
+Content-Type: application/json
+
+{
+    "title": "new concert",
+    "price": 500
+}
+
+###
+
+PUT {{baseUrl}}/tickets/{{createTicket.response.body.id}}
+Content-Type: application/json
+
+{
+    "title": "new concert",
+    "price": 100
+}
+
+###
+
+# @name createOrder
+POST {{baseUrl}}/orders
+Content-Type: application/json
+
+{
+    "ticketId": "{{createTicket.response.body.id}}"
+}
+
+###
+
+ @testStripeToken = tok_visa
+
+POST {{baseUrl}}/payments
+Content-Type: application/json
+
+{
+    "token": "{{testStripeToken}}",
+    "orderId":"{{createOrder.response.body.id}}"
+}

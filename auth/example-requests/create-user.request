@@ -1,0 +1,7 @@
+POST http://ticketing.local/api/users/signup
+Content-Type: application/json
+
+{
+    "email": "example7@example.com",
+    "password": "1234"
+}

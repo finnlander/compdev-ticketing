@@ -1,0 +1,2 @@
+GET http://ticketing.local/api/users/currentuser
+

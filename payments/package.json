@@ -1,12 +1,13 @@
 {
   "name": "payments",
   "version": "1.0.0",
-  "description": "",
+  "description": "Ticketing system's payment service",
   "main": "index.js",
   "scripts": {
     "start": "ts-node-dev --debug src/index.ts",
     "test": "jest --watchAll --no-cache",
-    "test:ci": "jest"
+    "test:ci": "jest",
+    "ts-lint": "tsc --noEmit --skipLibCheck"
   },
   "jest": {
     "preset": "ts-jest",
@@ -19,25 +20,26 @@
   "author": "Janne Suomalainen",
   "license": "MIT",
   "dependencies": {
-    "@types/cookie-session": "^2.0.42",
+    "@types/cookie-session": "^2.0.44",
     "@types/express": "^4.17.11",
     "@types/jsonwebtoken": "^8.5.1",
     "@types/mongoose": "^5.10.4",
-    "cookie-session": "^1.4.0",
-    "express": "^4.17.1",
+    "cookie-session": "^2.0.0",
+    "express": "^4.17.2",
     "express-async-errors": "^3.1.1",
     "express-validator": "^6.10.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "5.10.19",
+    "mongoose": "5.13.14",
     "mongoose-update-if-current": "^1.4.0",
     "node-nats-streaming": "^0.3.2",
     "stripe": "^8.145.0",
-    "ts-node-dev": "^1.1.6",
+    "ts-node-dev": "^1.1.8",
     "typescript": "^4.2.3",
     "udemy-ticketing-common": "1.0.38"
   },
   "devDependencies": {
     "@types/jest": "^26.0.22",
+    "@types/node": "^17.0.8",
     "@types/supertest": "^2.0.11",
     "jest": "^26.6.3",
     "mongodb-memory-server": "^6.9.6",

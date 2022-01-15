@@ -1,2 +1,3 @@
-GET http://ticketing.local/api/users/currentuser
+### Rest Client vscode extension file
 
+GET http://ticketing.local/api/users/currentuser

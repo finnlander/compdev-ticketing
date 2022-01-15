@@ -8,8 +8,8 @@
     "listen": "ts-node-dev --rs --notify false src/listener.ts"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Janne Suomalainen",
+  "license": "MIT",
   "dependencies": {
     "@types/node": "^14.14.41",
     "node-nats-streaming": "^0.3.2",

@@ -13,8 +13,8 @@
     "pub": "git add . && git commit -m \"Updates\" && npm version patch && npm run build && npm publish"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Janne Suomalainen",
+  "license": "MIT",
   "publishConfig": {
     "registry": "http://192.168.1.103:4873/"
   },

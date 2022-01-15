@@ -1,3 +1,5 @@
+### Rest Client vscode extension file
+
 POST http://ticketing.local/api/users/signup
 Content-Type: application/json
 

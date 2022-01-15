@@ -1,3 +1,5 @@
+### Rest Client vscode extension file
+
 POST http://ticketing.local/api/users/signup
 Content-Type: application/json
 
@@ -16,10 +18,10 @@ Content-Type: application/json
     "password": "1234"
 }
 
-### 
+###
 
 GET https://ticketing.local/api/users/currentuser
 
-### 
+###
 
-POST https://ticketing.local/api/users/signout 
+POST https://ticketing.local/api/users/signout

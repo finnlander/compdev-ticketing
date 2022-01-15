@@ -7,8 +7,9 @@
     "dev": "next"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Janne Suomalainen",
+  "license": "MIT",
+  "private": true,
   "dependencies": {
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",

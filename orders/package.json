@@ -1,7 +1,7 @@
 {
   "name": "orders",
   "version": "1.0.0",
-  "description": "",
+  "description": "An example microservice arhitecture of a ticketing application made for self-study.",
   "main": "index.js",
   "scripts": {
     "start": "ts-node-dev --debug src/index.ts",
@@ -16,8 +16,9 @@
     ]
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Janne Suomalainen",
+  "license": "MIT",
+  "private": true,
   "dependencies": {
     "@types/cookie-session": "^2.0.42",
     "@types/express": "^4.17.11",

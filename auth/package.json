@@ -7,14 +7,8 @@
     "start": "ts-node-dev --debug src/index.ts",
     "test": "jest --watchAll --no-cache",
     "test:ci": "jest",
-    "ts-lint": "tsc --noEmit --skipLibCheck"
-  },
-  "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "node",
-    "setupFilesAfterEnv": [
-      "./src/test/setup.ts"
-    ]
+    "ts-lint": "tsc --noEmit --skipLibCheck",
+    "lint": "eslint --max-warnings=0 src --ext .ts,.tsx"
   },
   "keywords": [],
   "author": "Janne Suomalainen",

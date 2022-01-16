@@ -11,7 +11,8 @@
     "clean": "del ./build/*",
     "build": "npm run clean && tsc",
     "pub": "git add . && git commit -m \"Updates\" && npm version patch && npm run build && npm publish",
-    "ts-lint": "tsc --noEmit --skipLibCheck"
+    "ts-lint": "tsc --noEmit --skipLibCheck",
+    "lint": "eslint --max-warnings=0 src --ext .ts,.tsx"
   },
   "keywords": [],
   "author": "Janne Suomalainen",

@@ -6,14 +6,8 @@
   "scripts": {
     "start": "ts-node-dev --debug src/index.ts",
     "test": "jest --watchAll --no-cache",
-    "test:ci": "jest"
-  },
-  "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "node",
-    "setupFilesAfterEnv": [
-      "./src/test/setup.ts"
-    ]
+    "test:ci": "jest",
+    "lint": "eslint --max-warnings=0 src --ext .ts,.tsx"
   },
   "keywords": [],
   "author": "Janne Suomalainen",

@@ -1,12 +1,11 @@
-
 export enum AppEnv {
     development,
     test,
-    production
+    production,
 }
 
 export interface AppConfiguration {
-    env: AppEnv
-    jwtKey: string,
-    mongoURI: string
+    env: AppEnv;
+    jwtKey: string;
+    mongoURI: string;
 }

@@ -1,11 +1,11 @@
-import { Ticket } from '../ticket';
+import Ticket from '../ticket';
 
-it('implements optimistic concurrency control', async (done) => {
+it('implements optimistic concurrency control', async () => {
     // Create a ticket
     const ticket = await Ticket.build({
         title: 'concert',
         price: 5,
-        userId: '123'
+        userId: '123',
     }).save();
 
     // fetch the ticket twice
@@ -23,11 +23,10 @@ it('implements optimistic concurrency control', async (done) => {
     try {
         await secondInstance!.save();
     } catch (err) {
-        return done();
+        return;
     }
 
     throw new Error('Expected VersionError');
-
 });
 
 it('increments the version number on multiple saves', async () => {
@@ -35,13 +34,12 @@ it('increments the version number on multiple saves', async () => {
     const ticket = await Ticket.build({
         title: 'concert',
         price: 5,
-        userId: '123'
+        userId: '123',
     }).save();
     expect(ticket.version).toEqual(0);
 
     await ticket.save();
     expect(ticket.version).toEqual(1);
-
 
     await ticket.save();
     expect(ticket.version).toEqual(2);

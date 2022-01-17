@@ -2,14 +2,16 @@ import mongoose from 'mongoose';
 import { UserPayload, createJwtFromUser } from 'udemy-ticketing-common';
 import { AppConfiguration, AppEnv } from '../interfaces/app-configuration';
 
-const signin: (config: AppConfiguration) => string = (config: AppConfiguration) => {
-    const sessionKey = "express:sess"
-    const jwtKey = config.jwtKey;
+const signin: (config: AppConfiguration) => string = (
+    config: AppConfiguration
+) => {
+    const sessionKey = 'express:sess';
+    const { jwtKey } = config;
 
     // build a JWT payload. {id, email}
     const payload: UserPayload = {
         id: new mongoose.Types.ObjectId().toHexString(),
-        email: "test@test.com"
+        email: 'test@test.com',
     };
 
     // Create the JWT
@@ -24,12 +26,10 @@ const signin: (config: AppConfiguration) => string = (config: AppConfiguration) 
     return `${sessionKey}=${base64}`;
 };
 
-const testAppConfig: () => AppConfiguration = () => {
-    return {
-        env: AppEnv.test,
-        jwtKey: 'secret',
-        mongoURI: ''
-    }
-}
+const testAppConfig: () => AppConfiguration = () => ({
+    env: AppEnv.test,
+    jwtKey: 'secret',
+    mongoURI: '',
+});
 
 export { signin, testAppConfig };

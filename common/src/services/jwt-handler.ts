@@ -6,21 +6,21 @@ const createJwtFromUser = (user: UserPayload, jwtKey: string) => {
     if (!user) {
         return null;
     }
-    return jwt.sign({
-        id: user.id,
-        email: user.email
-    }, jwtKey);
-}
+    return jwt.sign(
+        {
+            id: user.id,
+            email: user.email,
+        },
+        jwtKey
+    );
+};
 
 export { createJwtFromUser };
 
 export class JwtHandler {
+    constructor(private jwtKey: string) {}
 
-    constructor(private jwtKey: string) { }
-
-    addJwtToken(
-        user: UserPayload,
-        req: Request) {
+    addJwtToken(user: UserPayload, req: Request) {
         const userJwt = createJwtFromUser(user, this.jwtKey);
         req.session = { ...req.session, jwt: userJwt };
     }
@@ -34,8 +34,8 @@ export class JwtHandler {
         try {
             return jwt.verify(req.session.jwt, this.jwtKey) as UserPayload;
         } catch (error) {
-            console.log("Invalid JWT token:", error);
+            console.log('Invalid JWT token:', error);
             return null;
         }
     }
-};
+}

@@ -1,9 +1,15 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
-import { BadRequestError, NotAuthorizedError, NotFoundError, requireAuth, validateRequest } from 'udemy-ticketing-common';
-import { TicketUpdatedPublisher } from '../events/publishers/ticket-updated-publisher';
-import { Ticket } from '../models/ticket';
-import { natsWrapper } from '../nats-wrapper';
+import {
+    BadRequestError,
+    NotAuthorizedError,
+    NotFoundError,
+    requireAuth,
+    validateRequest,
+} from 'udemy-ticketing-common';
+import TicketUpdatedPublisher from '../events/publishers/ticket-updated-publisher';
+import Ticket from '../models/ticket';
+import natsWrapper from '../nats-wrapper';
 
 const router = express.Router();
 
@@ -16,7 +22,8 @@ const priceValidator = body('price')
     .isFloat({ gt: 0 })
     .withMessage('Price must be greater than zero');
 
-router.put('/api/tickets/:id',
+router.put(
+    '/api/tickets/:id',
     requireAuth,
     [titleValidator, priceValidator],
     validateRequest,
@@ -45,10 +52,11 @@ router.put('/api/tickets/:id',
             version: ticket.version,
             title: ticket.title,
             price: ticket.price,
-            userId: ticket.userId
+            userId: ticket.userId,
         });
 
         return res.status(200).send(updatedTicket);
-    });
+    }
+);
 
-export { router as updateTicketRouter };
+export default router;

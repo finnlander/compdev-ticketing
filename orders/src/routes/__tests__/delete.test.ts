@@ -1,9 +1,9 @@
 import request from 'supertest';
-import { createApp } from '../../app';
-import { Order, OrderStatus } from '../../models/order';
-import { natsWrapper } from '../../nats-wrapper';
+import { OrderStatus } from 'udemy-ticketing-common';
+import createApp from '../../app';
+import Order from '../../models/order';
+import natsWrapper from '../../nats-wrapper';
 import { createTicket, signin, testAppConfig } from '../../test/testHelpers';
-
 
 const appConfig = testAppConfig();
 
@@ -17,8 +17,9 @@ it('marks an order as cancelled', async () => {
         .post('/api/orders')
         .set('Cookie', user)
         .send({
-            ticketId: ticket.id
-        }).expect(201);
+            ticketId: ticket.id,
+        })
+        .expect(201);
 
     await request(app)
         .delete(`/api/orders/${order.id}`)
@@ -40,8 +41,9 @@ it('emits order cancelled event', async () => {
         .post('/api/orders')
         .set('Cookie', user)
         .send({
-            ticketId: ticket.id
-        }).expect(201);
+            ticketId: ticket.id,
+        })
+        .expect(201);
 
     await request(app)
         .delete(`/api/orders/${order.id}`)

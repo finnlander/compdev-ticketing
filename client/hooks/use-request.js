@@ -13,11 +13,13 @@ const useRequest = ({ url, method, body, onSuccess }) => {
             <div className="alert alert-danger">
                 <h4>Oops...</h4>
                 <ul className="my-0">
-                    {errs.map(err => <li key={err.message}>{err.message}</li>)}
+                    {errs.map((err) => (
+                        <li key={err.message}>{err.message}</li>
+                    ))}
                 </ul>
             </div>
         );
-    }
+    };
 
     const doRequest = async (props = {}) => {
         try {
@@ -30,7 +32,6 @@ const useRequest = ({ url, method, body, onSuccess }) => {
             }
 
             return response.data;
-
         } catch (err) {
             const errorArray = err?.response?.data?.errors || [];
             if (errorArray.length == 0) {
@@ -39,7 +40,6 @@ const useRequest = ({ url, method, body, onSuccess }) => {
             const jsxElem = createErrorBlock(errorArray);
             setErrors(jsxElem);
         }
-
     };
 
     return { doRequest, errors };

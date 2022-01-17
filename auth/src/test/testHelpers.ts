@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { app } from '../app';
+import app from '../app';
 
 export const signin = async () => {
     const email = 'test@test.com';
@@ -12,4 +12,4 @@ export const signin = async () => {
 
     const sessionCookie = authResp.get('Set-Cookie');
     return sessionCookie;
-}
+};

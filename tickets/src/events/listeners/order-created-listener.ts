@@ -1,12 +1,12 @@
 import { Message } from 'node-nats-streaming';
 import { Listener, OrderCreatedEvent, Subjects } from 'udemy-ticketing-common';
-import { Ticket } from '../../models/ticket';
-import { TicketUpdatedPublisher } from '../publishers/ticket-updated-publisher';
+import Ticket from '../../models/ticket';
+import TicketUpdatedPublisher from '../publishers/ticket-updated-publisher';
 import { queueGroupName } from './queue-group-name';
 
-
-export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
+export default class OrderCreatedListener extends Listener<OrderCreatedEvent> {
     readonly subject = Subjects.OrderCreated;
+
     readonly queueGroupName = queueGroupName;
 
     async onMessage(data: OrderCreatedEvent['data'], msg: Message) {
@@ -25,7 +25,7 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
             price: ticket.price,
             title: ticket.title,
             userId: ticket.userId,
-            orderId: ticket.orderId
+            orderId: ticket.orderId,
         });
 
         msg.ack();

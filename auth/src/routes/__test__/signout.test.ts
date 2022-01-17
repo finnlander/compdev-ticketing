@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { app } from '../../app';
+import app from '../../app';
 
 it('should prevent login with nonexistent user', async () => {
     const email = 'test@test.com';
@@ -9,7 +9,7 @@ it('should prevent login with nonexistent user', async () => {
         .post('/api/users/signup')
         .send({
             email,
-            password
+            password,
         })
         .expect(201);
 
@@ -17,7 +17,7 @@ it('should prevent login with nonexistent user', async () => {
         .post('/api/users/signin')
         .send({
             email,
-            password
+            password,
         })
         .expect(200);
 
@@ -26,7 +26,7 @@ it('should prevent login with nonexistent user', async () => {
         .send({})
         .expect(200);
 
-    expect(resp.get('Set-Cookie')[0]).toEqual("express:sess=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; httponly");
-
-
+    expect(resp.get('Set-Cookie')[0]).toEqual(
+        'express:sess=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; httponly'
+    );
 });

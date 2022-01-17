@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
-import { NotFoundError, validateRequest } from 'udemy-ticketing-common';
-import { Ticket } from '../models/ticket';
+import { NotFoundError } from 'udemy-ticketing-common';
+import Ticket from '../models/ticket';
 
 const router = express.Router();
 
@@ -13,4 +13,4 @@ router.get('/api/tickets/:id', async (req: Request, res: Response) => {
     res.send(ticket);
 });
 
-export { router as showTickerRouter };
+export default router;

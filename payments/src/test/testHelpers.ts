@@ -1,21 +1,22 @@
 import mongoose from 'mongoose';
-import { createJwtFromUser, OrderStatus, UserPayload } from 'udemy-ticketing-common';
+import {
+    createJwtFromUser,
+    OrderStatus,
+    UserPayload,
+} from 'udemy-ticketing-common';
 import { AppConfiguration, AppEnv } from '../interfaces/app-configuration';
-import { Order } from '../models/order';
+import Order from '../models/order';
 
-
-const createRandomId = () => {
-    return mongoose.Types.ObjectId().toHexString();
-}
+const createRandomId = () => mongoose.Types.ObjectId().toHexString();
 
 const signin = (config: AppConfiguration, id?: string) => {
-    const sessionKey = "express:sess"
-    const jwtKey = config.jwtKey;
+    const sessionKey = 'express:sess';
+    const { jwtKey } = config;
 
     // build a JWT payload. {id, email}
     const payload: UserPayload = {
         id: id || createRandomId(),
-        email: "test@test.com"
+        email: 'test@test.com',
     };
 
     // Create the JWT
@@ -30,23 +31,21 @@ const signin = (config: AppConfiguration, id?: string) => {
     return `${sessionKey}=${base64}`;
 };
 
-const testAppConfig: () => AppConfiguration = () => {
-    return {
-        env: AppEnv.test,
-        jwtKey: 'secret',
-        mongoURI: ''
-    }
-}
+const testAppConfig: () => AppConfiguration = () => ({
+    env: AppEnv.test,
+    jwtKey: 'secret',
+    mongoURI: '',
+});
 
 const createMockMessage = () => {
     // create only relevant functions for the mock message
     // @ts-ignore
     const msg: Message = {
-        ack: jest.fn()
-    }
+        ack: jest.fn(),
+    };
 
     return msg;
-}
+};
 
 const createOrder = async () => {
     const order = await Order.build({
@@ -54,18 +53,16 @@ const createOrder = async () => {
         status: OrderStatus.Created,
         userId: createRandomId(),
         price: 10,
-        version: 0
-    }
-    ).save();
+        version: 0,
+    }).save();
 
     return order;
-}
+};
 
 export {
     signin,
     testAppConfig,
     createMockMessage,
     createRandomId,
-    createOrder
+    createOrder,
 };
-

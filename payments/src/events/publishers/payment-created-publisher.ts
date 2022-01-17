@@ -1,5 +1,9 @@
-import { PaymentCreatedEvent, Publisher, Subjects } from 'udemy-ticketing-common';
+import {
+    PaymentCreatedEvent,
+    Publisher,
+    Subjects,
+} from 'udemy-ticketing-common';
 
-export class PaymentCreatedPublisher extends Publisher<PaymentCreatedEvent> {
+export default class PaymentCreatedPublisher extends Publisher<PaymentCreatedEvent> {
     readonly subject = Subjects.PaymentCreated;
 }

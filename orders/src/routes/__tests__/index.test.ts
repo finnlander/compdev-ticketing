@@ -1,7 +1,6 @@
 import request from 'supertest';
-import { createApp } from '../../app';
+import createApp from '../../app';
 import { createTicket, signin, testAppConfig } from '../../test/testHelpers';
-
 
 const appConfig = testAppConfig();
 

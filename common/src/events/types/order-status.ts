@@ -4,7 +4,7 @@ export enum OrderStatus {
      */
     Created = 'created',
     /**
-     * The ticket the order is trying to reserve has already been reserved, 
+     * The ticket the order is trying to reserve has already been reserved,
      * or when the user has cancelled the order.
      */
     Cancelled = 'cancelled',
@@ -15,5 +15,5 @@ export enum OrderStatus {
     /**
      * The order has reserved the ticket and the user has provided payment successfully.
      */
-    Complete = 'complete'
+    Complete = 'complete',
 }

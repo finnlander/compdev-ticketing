@@ -1,16 +1,14 @@
-
 import { Stan } from 'node-nats-streaming';
 import { Subjects } from 'udemy-ticketing-common';
-import { OrderCreatedListener } from './events/listeners/order-created-listener';
-import { natsWrapper } from './nats-wrapper';
-
+import OrderCreatedListener from './events/listeners/order-created-listener';
+import natsWrapper from './nats-wrapper';
 
 const requiredEnvVars = [
     'NATS_URL',
     'NATS_CLUSTER_ID',
     'NATS_CLIENT_ID',
-    'REDIS_HOST'
-]
+    'REDIS_HOST',
+];
 
 const start = async () => {
     console.log('Starting app...');
@@ -21,7 +19,6 @@ const start = async () => {
 };
 
 start();
-
 
 async function initNats() {
     const natsClusterId = process.env.NATS_CLUSTER_ID!;
@@ -34,30 +31,26 @@ async function initNats() {
         console.log('NATS connection closed!');
         process.exit();
     });
-
-    ['SIGINT', 'SIGTERM'].forEach(
-        terminationSignal => process.on(terminationSignal, () => natsWrapper.client.close));
-
+    ['SIGINT', 'SIGTERM'].forEach((terminationSignal) =>
+        process.on(terminationSignal, () => natsWrapper.client.close)
+    );
 }
 
 function startNatsListeners(natsClient: Stan) {
-
-    const listeners: { subject: Subjects, listen: () => void }[] = [
-        new OrderCreatedListener(natsClient)
+    const listeners: { subject: Subjects; listen: () => void }[] = [
+        new OrderCreatedListener(natsClient),
     ];
 
-    listeners.forEach(listener => {
+    listeners.forEach((listener) => {
         listener.listen();
         console.log('Started listening event: ', listener.subject);
     });
 }
 
 function verifyRequiredEnvVars() {
-    requiredEnvVars.forEach(envVar => {
+    requiredEnvVars.forEach((envVar) => {
         if (!process.env[envVar]) {
             throw new Error(`Environment variable '${envVar}' must be defined`);
         }
     });
 }
-
-

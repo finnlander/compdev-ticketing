@@ -1,6 +1,7 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-param-reassign */
+// Allow param reassign as mongoose uses '_id' field for the records and it is renamed into more clear 'id' field.
 import mongoose from 'mongoose';
-
-export { Payment };
 
 interface PaymentAttrs {
     orderId: string;
@@ -13,32 +14,36 @@ interface PaymentDoc extends mongoose.Document {
 }
 
 interface PaymentModel extends mongoose.Model<PaymentDoc> {
-
     build(attrs: PaymentAttrs): PaymentDoc;
 }
 
-const paymentSchema = new mongoose.Schema({
-    orderId: {
-        type: String,
-        required: true
+const paymentSchema = new mongoose.Schema(
+    {
+        orderId: {
+            type: String,
+            required: true,
+        },
+        stripeId: {
+            type: String,
+            required: true,
+        },
     },
-    stripeId: {
-        type: String,
-        required: true
+    {
+        toJSON: {
+            transform(doc, ret) {
+                ret.id = ret._id;
+                delete ret._id;
+            },
+        },
     }
-}, {
-    toJSON: {
-        transform(doc, ret) {
-            ret.id = ret._id;
-            delete ret._id;
-        }
-    }
-});
+);
 
-paymentSchema.statics.build = (attrs: PaymentAttrs) => {
-    return new Payment(attrs);
-};
+// eslint-disable-next-line @typescript-eslint/no-use-before-define
+paymentSchema.statics.build = (attrs: PaymentAttrs) => new Payment(attrs);
 
-const Payment = mongoose.model<PaymentDoc, PaymentModel>('Payment', paymentSchema);
+const Payment = mongoose.model<PaymentDoc, PaymentModel>(
+    'Payment',
+    paymentSchema
+);
 
-
+export default Payment;

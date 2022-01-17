@@ -7,13 +7,7 @@
     "lint:payments": "cd payments && npm run lint",
     "lint:tickets": "cd tickets && npm run lint",
     "lint": "npm-run-all --parallel lint:*",
-    "tsc-lint": "npm-run-all --parallel tsc-lint:*",
-    "tsc-lint:auth": "tsc --skipLibCheck --noEmit -p auth",
-    "tsc-lint:common": "tsc --skipLibCheck --noEmit -p common",
-    "tsc-lint:expiration": "tsc --skipLibCheck --noEmit -p expiration",
-    "tsc-lint:orders": "tsc --skipLibCheck --noEmit -p orders",
-    "tsc-lint:payments": "tsc --skipLibCheck --noEmit -p payments",
-    "tsc-lint:tickets": "tsc --skipLibCheck --noEmit -p tickets",
+    "tsc-lint": "tsc --skipLibCheck --noEmit",
     "test": "npm-run-all test:*",
     "test:auth": "cd auth && npm run test:ci",
     "test:expiration": "cd expiration && npm run test:ci",
@@ -26,6 +20,8 @@
     "pre-push": "npm-run-all --parallel tsc-lint test"
   },
   "devDependencies": {
+    "@types/jest": "^27.4.0",
+    "@types/node": "^17.0.9",
     "@typescript-eslint/eslint-plugin": "^5.9.1",
     "@typescript-eslint/parser": "^5.9.1",
     "eslint": "^8.6.0",

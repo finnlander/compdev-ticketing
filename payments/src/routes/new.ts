@@ -6,33 +6,26 @@ import {
     NotFoundError,
     OrderStatus,
     requireAuth,
-    validateRequest
+    validateRequest,
 } from 'udemy-ticketing-common';
-import { PaymentCreatedPublisher } from '../events/publishers/payment-created-publisher';
-import { Order } from '../models/order';
-import { Payment } from '../models/payment';
-import { natsWrapper } from '../nats-wrapper';
-import { stripe } from '../stripe';
+import PaymentCreatedPublisher from '../events/publishers/payment-created-publisher';
+import Order from '../models/order';
+import Payment from '../models/payment';
+import natsWrapper from '../nats-wrapper';
+import stripe from '../stripe';
 
 const router = express.Router();
 
-const tokenValidator = body('token')
-    .not()
-    .isEmpty();
+const tokenValidator = body('token').not().isEmpty();
 
-const orderIdValidator = body('orderId')
-    .not()
-    .isEmpty()
+const orderIdValidator = body('orderId').not().isEmpty();
 
-router.post('/api/payments',
+router.post(
+    '/api/payments',
     requireAuth,
-    [
-        tokenValidator,
-        orderIdValidator
-    ],
+    [tokenValidator, orderIdValidator],
     validateRequest,
     async (req: Request, res: Response) => {
-
         const { token, orderId } = req.body;
 
         const order = await Order.findById(orderId);
@@ -51,22 +44,22 @@ router.post('/api/payments',
         const paymentRes = await stripe.charges.create({
             currency: 'usd',
             amount: order.price * 100,
-            source: token
+            source: token,
         });
 
         const payment = await Payment.build({
-            orderId: orderId,
-            stripeId: paymentRes.id
+            orderId,
+            stripeId: paymentRes.id,
         }).save();
 
         new PaymentCreatedPublisher(natsWrapper.client).publish({
             id: payment.id,
             orderId: payment.orderId,
-            stripeId: payment.stripeId
+            stripeId: payment.stripeId,
         });
 
         res.status(201).send({ id: payment.id });
-    });
+    }
+);
 
-
-export { router as createChareRouter };
+export default router;

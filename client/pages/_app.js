@@ -1,14 +1,13 @@
-// note: in next.js the global css needs to be imported in _app.js 
+// note: in next.js the global css needs to be imported in _app.js
 import 'bootstrap/dist/css/bootstrap.css';
 import buildClient from '../api/build-client';
 import Header from '../components/header';
-
 
 const AppComponent = ({ Component, pageProps, currentUser }) => {
     return (
         <div>
             <Header currentUser={currentUser} />
-            <div className='container'>
+            <div className="container">
                 <Component currentUser={currentUser} {...pageProps} />
             </div>
         </div>
@@ -30,7 +29,7 @@ AppComponent.getInitialProps = async (appContext) => {
 
     return {
         pageProps,
-        ...data
+        ...data,
     };
 };
 

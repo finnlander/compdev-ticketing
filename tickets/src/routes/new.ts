@@ -1,11 +1,9 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { requireAuth, validateRequest } from 'udemy-ticketing-common';
-import { TicketCreatedPublisher } from '../events/publishers/ticket-created-publisher';
-import { Ticket } from '../models/ticket';
-import { natsWrapper } from '../nats-wrapper';
-
-
+import TicketCreatedPublisher from '../events/publishers/ticket-created-publisher';
+import Ticket from '../models/ticket';
+import natsWrapper from '../nats-wrapper';
 
 const router = express.Router();
 
@@ -18,7 +16,8 @@ const priceValidator = body('price')
     .isFloat({ gt: 0 })
     .withMessage('Price must be greater than zero');
 
-router.post('/api/tickets',
+router.post(
+    '/api/tickets',
     requireAuth,
     [titleValidator, priceValidator],
     validateRequest,
@@ -28,7 +27,7 @@ router.post('/api/tickets',
         const ticket = Ticket.build({
             title,
             price,
-            userId: req.currentUser!.id!
+            userId: req.currentUser!.id!,
         });
 
         await ticket.save();
@@ -37,10 +36,11 @@ router.post('/api/tickets',
             version: ticket.version,
             title: ticket.title,
             price: ticket.price,
-            userId: ticket.userId
+            userId: ticket.userId,
         });
 
         return res.status(201).send(ticket);
-    });
+    }
+);
 
-export { router as createTicketRouter };
+export default router;

@@ -1,18 +1,25 @@
 import mongoose from 'mongoose';
 import { Message } from 'node-nats-streaming';
-import { createJwtFromUser, OrderStatus, UserPayload } from 'udemy-ticketing-common';
+import {
+    createJwtFromUser,
+    OrderStatus,
+    UserPayload,
+} from 'udemy-ticketing-common';
 import { AppConfiguration, AppEnv } from '../interfaces/app-configuration';
-import { Order } from '../models/order';
-import { Ticket, TicketDoc } from '../models/ticket';
+import Order from '../models/order';
+import Ticket from '../models/ticket';
+import { TicketDoc } from '../models/ticket-doc';
 
-const signin: (config: AppConfiguration) => string = (config: AppConfiguration) => {
-    const sessionKey = "express:sess"
-    const jwtKey = config.jwtKey;
+const signin: (config: AppConfiguration) => string = (
+    config: AppConfiguration
+) => {
+    const sessionKey = 'express:sess';
+    const { jwtKey } = config;
 
     // build a JWT payload. {id, email}
     const payload: UserPayload = {
         id: new mongoose.Types.ObjectId().toHexString(),
-        email: "test@test.com"
+        email: 'test@test.com',
     };
 
     // Create the JWT
@@ -27,44 +34,41 @@ const signin: (config: AppConfiguration) => string = (config: AppConfiguration) 
     return `${sessionKey}=${base64}`;
 };
 
-const testAppConfig: () => AppConfiguration = () => {
-    return {
-        env: AppEnv.test,
-        jwtKey: 'secret',
-        mongoURI: ''
-    }
-}
+const testAppConfig: () => AppConfiguration = () => ({
+    env: AppEnv.test,
+    jwtKey: 'secret',
+    mongoURI: '',
+});
 
 const createTicket = async () => {
     const ticket = await Ticket.build({
         id: mongoose.Types.ObjectId().toHexString(),
         title: 'concert',
-        price: 20
+        price: 20,
     }).save();
 
     return ticket;
-}
+};
 
 const createOrder = async (ticket: TicketDoc) => {
     const order = await Order.build({
         status: OrderStatus.Created,
         userId: mongoose.Types.ObjectId().toHexString(),
         expiresAt: new Date(),
-        ticket: ticket
-    }
-    ).save();
+        ticket,
+    }).save();
 
     return order;
-}
+};
 
 const createMockMessage = () => {
     // create only relevant functions for the mock message
     // @ts-ignore
     const msg: Message = {
-        ack: jest.fn()
-    }
+        ack: jest.fn(),
+    };
 
     return msg;
-}
+};
 
 export { signin, testAppConfig, createTicket, createOrder, createMockMessage };

@@ -4,11 +4,7 @@ class NatsWrapper {
     private _client?: Stan;
 
     connect(clusterId: string, clientId: string, url: string) {
-        this._client = nats.connect(
-            clusterId,
-            clientId,
-            { url }
-        );
+        this._client = nats.connect(clusterId, clientId, { url });
 
         return new Promise<void>((resolve, reject) => {
             this.client.on('connect', () => {
@@ -18,7 +14,7 @@ class NatsWrapper {
 
             this.client.on('error', (err) => {
                 reject(err);
-            })
+            });
         });
     }
 
@@ -31,5 +27,5 @@ class NatsWrapper {
     }
 }
 
-
-export const natsWrapper = new NatsWrapper();
+const natsWrapper = new NatsWrapper();
+export default natsWrapper;

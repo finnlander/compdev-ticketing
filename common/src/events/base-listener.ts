@@ -8,23 +8,25 @@ interface Event {
 
 export abstract class Listener<T extends Event> {
     abstract subject: T['subject'];
+
     abstract queueGroupName: string;
     abstract onMessage(data: T['data'], msg: Message): void;
 
     protected client: Stan;
-    protected ackWait = 5 * 1000;
 
+    protected ackWait = 5 * 1000;
 
     constructor(client: Stan) {
         this.client = client;
     }
 
     subscriptionOptions() {
-        return this.client.subscriptionOptions()
+        return this.client
+            .subscriptionOptions()
             .setDeliverAllAvailable()
             .setManualAckMode(true)
             .setAckWait(this.ackWait)
-            .setDurableName(this.queueGroupName)
+            .setDurableName(this.queueGroupName);
     }
 
     listen() {
@@ -44,6 +46,8 @@ export abstract class Listener<T extends Event> {
         });
     }
 
+    // default implementation
+    // eslint-disable-next-line class-methods-use-this
     parseMessage(msg: Message): T {
         const data = msg.getData();
         return typeof data === 'string'

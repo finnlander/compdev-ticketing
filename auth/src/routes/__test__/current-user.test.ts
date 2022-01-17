@@ -1,6 +1,6 @@
-import { signin } from '../../test/testHelpers';
 import request from 'supertest';
-import { app } from '../../app';
+import app from '../../app';
+import { signin } from '../../test/testHelpers';
 
 it('responds with details about the current user', async () => {
     const email = 'test@test.com';

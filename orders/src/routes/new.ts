@@ -1,11 +1,16 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import mongoose from 'mongoose';
-import { BadRequestError, OrderStatus, requireAuth, validateRequest } from 'udemy-ticketing-common';
-import { OrderCreatedPublisher } from '../events/publishers/order-created-publisher';
-import { Order } from '../models/order';
-import { Ticket } from '../models/ticket';
-import { natsWrapper } from '../nats-wrapper';
+import {
+    BadRequestError,
+    OrderStatus,
+    requireAuth,
+    validateRequest,
+} from 'udemy-ticketing-common';
+import OrderCreatedPublisher from '../events/publishers/order-created-publisher';
+import Order from '../models/order';
+import Ticket from '../models/ticket';
+import natsWrapper from '../nats-wrapper';
 
 const router = express.Router();
 const EXPIRATION_WINDOW_SECS = 1 * 60;
@@ -16,11 +21,10 @@ const ticketIdValidator = body('ticketId')
     .custom((input: string) => mongoose.Types.ObjectId.isValid(input))
     .withMessage('TicketId must be provided');
 
-router.post('/api/orders',
+router.post(
+    '/api/orders',
     requireAuth,
-    [
-        ticketIdValidator
-    ],
+    [ticketIdValidator],
     validateRequest,
     async (req: Request, res: Response) => {
         const { ticketId } = req.body;
@@ -31,7 +35,7 @@ router.post('/api/orders',
 
         const isReserved = await ticket.isReserved();
         if (isReserved) {
-            throw new BadRequestError('Ticket already reserved')
+            throw new BadRequestError('Ticket already reserved');
         }
 
         const expiration = new Date();
@@ -41,7 +45,7 @@ router.post('/api/orders',
             userId: req.currentUser!.id!,
             status: OrderStatus.Created,
             expiresAt: expiration,
-            ticket: ticket
+            ticket,
         });
 
         await order.save();
@@ -53,11 +57,12 @@ router.post('/api/orders',
             expiresAt: order.expiresAt.toISOString(),
             ticket: {
                 id: ticket.id,
-                price: ticket.price
-            }
+                price: ticket.price,
+            },
         });
 
         res.status(201).send(order);
-    });
+    }
+);
 
-export { router as createOrderRouter };
+export default router;

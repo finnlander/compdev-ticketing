@@ -1,4 +1,4 @@
-import { Subjects } from "./subjects";
+import { Subjects } from './subjects';
 
 export interface OrderCancelledEvent {
     subject: Subjects.OrderCancelled;
@@ -7,6 +7,6 @@ export interface OrderCancelledEvent {
         version: number;
         ticket: {
             id: string;
-        }
+        };
     };
 }

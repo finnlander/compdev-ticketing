@@ -1,9 +1,9 @@
 import { Express } from 'express';
 import mongoose from 'mongoose';
 import request from 'supertest';
-import { createApp } from '../../app';
-import { Ticket } from '../../models/ticket';
-import { natsWrapper } from '../../nats-wrapper';
+import createApp from '../../app';
+import Ticket from '../../models/ticket';
+import natsWrapper from '../../nats-wrapper';
 import { signin, testAppConfig } from '../../test/testHelpers';
 
 const appConfig = testAppConfig();
@@ -16,10 +16,11 @@ const createTicket = (app: Express, sessionCookie: string) => {
         .post('/api/tickets')
         .set('Cookie', sessionCookie)
         .send({
-            title: title,
-            price: price
-        }).expect(201);
-}
+            title,
+            price,
+        })
+        .expect(201);
+};
 
 it('returns a 404 if the provided id does not exist', async () => {
     const title = 'concert';
@@ -33,13 +34,11 @@ it('returns a 404 if the provided id does not exist', async () => {
         .put(`/api/tickets/${id}`)
         .set('Cookie', sessionCookie)
         .send({
-            title: title,
-            price: price
+            title,
+            price,
         })
         .expect(404);
-
 });
-
 
 it('returns a 401 if the user is not authenticated', async () => {
     const title = 'concert';
@@ -51,12 +50,11 @@ it('returns a 401 if the user is not authenticated', async () => {
     await request(app)
         .put(`/api/tickets/${id}`)
         .send({
-            title: title,
-            price: price
+            title,
+            price,
         })
         .expect(401);
 });
-
 
 it('returns a 401 if the user does not own the ticket', async () => {
     const app = createApp(appConfig);
@@ -75,12 +73,10 @@ it('returns a 401 if the user does not own the ticket', async () => {
         .set('Cookie', sessionCookie)
         .send({
             title: newTitle,
-            price: newPrice
+            price: newPrice,
         })
         .expect(401);
-
 });
-
 
 it('returns a 400 if the user provides an invalid title or price', async () => {
     const app = createApp(appConfig);
@@ -98,7 +94,7 @@ it('returns a 400 if the user provides an invalid title or price', async () => {
         .set('Cookie', sessionCookie)
         .send({
             title: newTitle,
-            price: newPrice
+            price: newPrice,
         })
         .expect(400);
 
@@ -107,11 +103,10 @@ it('returns a 400 if the user provides an invalid title or price', async () => {
         .set('Cookie', sessionCookie)
         .send({
             title: 'valid title',
-            price: -30
+            price: -30,
         })
         .expect(400);
 });
-
 
 it('updates the ticket provided valid inputs', async () => {
     const app = createApp(appConfig);
@@ -129,7 +124,7 @@ it('updates the ticket provided valid inputs', async () => {
         .set('Cookie', sessionCookie)
         .send({
             title: newTitle,
-            price: newPrice
+            price: newPrice,
         })
         .expect(200);
 
@@ -159,7 +154,7 @@ it('publishes an event', async () => {
         .set('Cookie', sessionCookie)
         .send({
             title: newTitle,
-            price: newPrice
+            price: newPrice,
         })
         .expect(200);
 
@@ -174,8 +169,6 @@ it('publishes an event', async () => {
 
 it('rejects updates if the ticket is reserved', async () => {
     const app = createApp(appConfig);
-    const newTitle = 'new title';
-    const newPrice = 30;
     const sessionCookie = signin(appConfig);
     const createTicketResp = await createTicket(app, sessionCookie);
 

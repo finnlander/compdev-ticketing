@@ -1,17 +1,11 @@
-
 import mongoose from 'mongoose';
-import { app } from './app';
-
+import app from './app';
 
 const port = 3000;
 
-const requiredEnvVars = [
-    'JWT_KEY',
-    'MONGO_URI'
-]
+const requiredEnvVars = ['JWT_KEY', 'MONGO_URI'];
 
 const start = async () => {
-
     console.log('Starting app...');
     verifyRequiredEnvVars();
 
@@ -20,11 +14,10 @@ const start = async () => {
         await mongoose.connect(dbConnStr, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            useCreateIndex: true
+            useCreateIndex: true,
         });
 
         console.log('Database connection established');
-
     } catch (err) {
         console.log('Db connection failed:', err);
     }
@@ -37,12 +30,9 @@ const start = async () => {
 start();
 
 function verifyRequiredEnvVars() {
-    requiredEnvVars.forEach(envVar => {
+    requiredEnvVars.forEach((envVar) => {
         if (!process.env[envVar]) {
             throw new Error(`Environment variable '${envVar}' must be defined`);
         }
     });
 }
-
-
-

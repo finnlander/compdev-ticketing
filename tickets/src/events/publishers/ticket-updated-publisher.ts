@@ -1,7 +1,9 @@
-import { Publisher, Subjects, TicketUpdatedEvent } from 'udemy-ticketing-common';
+import {
+    Publisher,
+    Subjects,
+    TicketUpdatedEvent,
+} from 'udemy-ticketing-common';
 
-
-
-export class TicketUpdatedPublisher extends Publisher<TicketUpdatedEvent> {
+export default class TicketUpdatedPublisher extends Publisher<TicketUpdatedEvent> {
     readonly subject = Subjects.TicketUpdated;
 }

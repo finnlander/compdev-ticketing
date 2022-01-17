@@ -1,9 +1,8 @@
 import request from 'supertest';
-import { createApp } from '../../app';
+import createApp from '../../app';
 import { createTicket, signin, testAppConfig } from '../../test/testHelpers';
 
 const appConfig = testAppConfig();
-
 
 it('fetches the order', async () => {
     const app = createApp(appConfig);
@@ -15,8 +14,9 @@ it('fetches the order', async () => {
         .post('/api/orders')
         .set('Cookie', user)
         .send({
-            ticketId: ticket.id
-        }).expect(201);
+            ticketId: ticket.id,
+        })
+        .expect(201);
 
     const { body: fetchedOrder } = await request(app)
         .get(`/api/orders/${order.id}`)
@@ -38,8 +38,9 @@ it('returns an error if user tries to fetch other users order ', async () => {
         .post('/api/orders')
         .set('Cookie', other)
         .send({
-            ticketId: ticket.id
-        }).expect(201);
+            ticketId: ticket.id,
+        })
+        .expect(201);
 
     await request(app)
         .get(`/api/orders/${order.id}`)

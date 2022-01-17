@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { app } from '../../app';
+import app from '../../app';
 
 it('returns a 201 on successful signup', async () => {
     const email = 'test@test.com';
@@ -9,7 +9,7 @@ it('returns a 201 on successful signup', async () => {
         .post('/api/users/signup')
         .send({
             email,
-            password
+            password,
         })
         .expect(201);
 
@@ -17,7 +17,7 @@ it('returns a 201 on successful signup', async () => {
         .post('/api/users/signin')
         .send({
             email,
-            password
+            password,
         })
         .expect(200);
 
@@ -32,7 +32,7 @@ it('should prevent login with nonexistent user', async () => {
         .post('/api/users/signin')
         .send({
             email,
-            password
+            password,
         })
         .expect(400);
 });
@@ -45,7 +45,7 @@ it('should prevent login with invalid password', async () => {
         .post('/api/users/signup')
         .send({
             email,
-            password
+            password,
         })
         .expect(201);
 
@@ -53,7 +53,7 @@ it('should prevent login with invalid password', async () => {
         .post('/api/users/signin')
         .send({
             email,
-            password: `IN${password}VALID`
+            password: `IN${password}VALID`,
         })
         .expect(400);
 });

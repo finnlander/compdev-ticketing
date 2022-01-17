@@ -1,6 +1,6 @@
 {
   "name": "udemy-ticketing-common",
-  "version": "1.0.36",
+  "version": "1.0.39",
   "description": "Ticketing system's common library for shared code",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",

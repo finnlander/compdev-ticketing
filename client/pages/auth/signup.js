@@ -11,15 +11,13 @@ const SignupPage = () => {
         url: '/api/users/signup',
         method: 'post',
         body: { email, password },
-        onSuccess: () => router.push('/')
-    }
-    );
+        onSuccess: () => router.push('/'),
+    });
 
     const onSubmit = async (event) => {
         event.preventDefault();
         doRequest();
-
-    }
+    };
 
     return (
         <form onSubmit={onSubmit}>
@@ -29,7 +27,8 @@ const SignupPage = () => {
                 <input
                     className="form-control"
                     value={email}
-                    onChange={e => setEmail(e.target.value)} />
+                    onChange={(e) => setEmail(e.target.value)}
+                />
             </div>
             <div className="form-group">
                 <label>Password</label>
@@ -37,7 +36,8 @@ const SignupPage = () => {
                     type="password"
                     className="form-control"
                     value={password}
-                    onChange={e => setPassword(e.target.value)} />
+                    onChange={(e) => setPassword(e.target.value)}
+                />
             </div>
             {errors}
             <button className="btn btn-primary">Sign Up</button>

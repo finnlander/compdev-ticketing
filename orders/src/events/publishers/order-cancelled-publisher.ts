@@ -1,5 +1,9 @@
-import { OrderCancelledEvent, Publisher, Subjects } from 'udemy-ticketing-common';
+import {
+    OrderCancelledEvent,
+    Publisher,
+    Subjects,
+} from 'udemy-ticketing-common';
 
-export class OrderCancelledPublisher extends Publisher<OrderCancelledEvent> {
+export default class OrderCancelledPublisher extends Publisher<OrderCancelledEvent> {
     readonly subject = Subjects.OrderCancelled;
 }

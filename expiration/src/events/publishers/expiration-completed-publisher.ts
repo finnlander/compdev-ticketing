@@ -1,7 +1,9 @@
-import { ExpirationCompleteEvent, Publisher, Subjects } from 'udemy-ticketing-common';
+import {
+    ExpirationCompleteEvent,
+    Publisher,
+    Subjects,
+} from 'udemy-ticketing-common';
 
-
-export class ExpirationCompletePublisher extends Publisher<ExpirationCompleteEvent> {
+export default class ExpirationCompletePublisher extends Publisher<ExpirationCompleteEvent> {
     readonly subject = Subjects.ExpirationComplete;
-
 }

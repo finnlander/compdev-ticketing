@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 import { TicketUpdatedEvent } from 'udemy-ticketing-common';
-import { Ticket } from '../../../models/ticket';
-import { natsWrapper } from '../../../nats-wrapper';
+import Ticket from '../../../models/ticket';
+import natsWrapper from '../../../nats-wrapper';
 import { createMockMessage, createTicket } from '../../../test/testHelpers';
-import { TicketUpdatedListener } from '../ticket-updated-listener';
+import TicketUpdatedListener from '../ticket-updated-listener';
 
 const setup = async () => {
     const listener = new TicketUpdatedListener(natsWrapper.client);
@@ -16,12 +16,17 @@ const setup = async () => {
         id: ticket.id,
         title: 'another concert',
         price: 999,
-        userId: new mongoose.Types.ObjectId().toHexString()
-    }
+        userId: new mongoose.Types.ObjectId().toHexString(),
+    };
 
     // @ts-ignore
     const msg = createMockMessage();
-    return { listener, ticket, data, msg };
+    return {
+        listener,
+        ticket,
+        data,
+        msg,
+    };
 };
 
 it('finds, updates, and saves a ticket', async () => {
@@ -43,20 +48,20 @@ it('acks the message', async () => {
     expect(msg.ack).toHaveBeenCalled();
 });
 
-
 it('does not call ack if the message version is not valid', async () => {
     const { listener, data, msg } = await setup();
 
     const ticket = await Ticket.findById(data.id);
-    await ticket!.set({
-        price: 123
-    }).save();
+    await ticket!
+        .set({
+            price: 123,
+        })
+        .save();
 
     try {
         await listener.onMessage(data, msg);
-    } catch (versionError) {
-    }
+        // eslint-disable-next-line no-empty
+    } catch (versionError) {}
 
     expect(msg.ack).not.toHaveBeenCalled();
 });
-

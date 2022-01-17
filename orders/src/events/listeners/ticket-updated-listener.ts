@@ -1,17 +1,18 @@
 import { Message } from 'node-nats-streaming';
 import { Listener, Subjects, TicketUpdatedEvent } from 'udemy-ticketing-common';
-import { Ticket } from '../../models/ticket';
+import Ticket from '../../models/ticket';
 import { queueGroupName } from './queue-group-name';
 
-export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
+export default class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
     readonly subject = Subjects.TicketUpdated;
+
     queueGroupName = queueGroupName;
 
+    // eslint-disable-next-line class-methods-use-this
     async onMessage(data: TicketUpdatedEvent['data'], msg: Message) {
-
         const ticket = await Ticket.findByEvent({
             id: data.id,
-            version: data.version
+            version: data.version,
         });
         if (!ticket) {
             throw new Error('Ticket not found');

@@ -1,8 +1,12 @@
 import { OrderCancelledEvent, OrderStatus } from 'udemy-ticketing-common';
-import { Order } from '../../../models/order';
-import { natsWrapper } from '../../../nats-wrapper';
-import { createMockMessage, createOrder, createRandomId } from '../../../test/testHelpers';
-import { OrderCancelledListener } from '../order-cancelled-listener';
+import Order from '../../../models/order';
+import natsWrapper from '../../../nats-wrapper';
+import {
+    createMockMessage,
+    createOrder,
+    createRandomId,
+} from '../../../test/testHelpers';
+import OrderCancelledListener from '../order-cancelled-listener';
 
 const setup = async () => {
     const listener = new OrderCancelledListener(natsWrapper.client);
@@ -13,13 +17,17 @@ const setup = async () => {
         id: order.id,
         version: order.version + 1,
         ticket: {
-            id: createRandomId()
-        }
-
+            id: createRandomId(),
+        },
     };
 
     const msg = createMockMessage();
-    return { listener, data, msg, order }
+    return {
+        listener,
+        data,
+        msg,
+        order,
+    };
 };
 
 it('updates the status of order', async () => {
@@ -30,7 +38,6 @@ it('updates the status of order', async () => {
 
     expect(updatedOrder!.status).toEqual(OrderStatus.Cancelled);
 });
-
 
 it('acks the message', async () => {
     const { listener, data, msg } = await setup();

@@ -1,7 +1,6 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 
-
 /*
 declare global {
     namespace NodeJS {
@@ -32,16 +31,16 @@ beforeAll(async () => {
 
     await mongoose.connect(mongoUri, {
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
     });
 });
 
 beforeEach(async () => {
     const collections = await mongoose.connection.db.collections();
 
-    for (let collection of collections) {
-        await collection.deleteMany({});
-    }
+    await Promise.all(
+        collections.map((collection) => collection.deleteMany({}))
+    );
 });
 
 afterAll(async () => {

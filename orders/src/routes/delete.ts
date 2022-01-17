@@ -1,12 +1,18 @@
 import express, { Request, Response } from 'express';
-import { NotAuthorizedError, NotFoundError, OrderStatus, requireAuth } from 'udemy-ticketing-common';
-import { OrderCancelledPublisher } from '../events/publishers/order-cancelled-publisher';
-import { Order } from '../models/order';
-import { natsWrapper } from '../nats-wrapper';
+import {
+    NotAuthorizedError,
+    NotFoundError,
+    OrderStatus,
+    requireAuth,
+} from 'udemy-ticketing-common';
+import OrderCancelledPublisher from '../events/publishers/order-cancelled-publisher';
+import Order from '../models/order';
+import natsWrapper from '../nats-wrapper';
 
 const router = express.Router();
 
-router.delete('/api/orders/:orderId',
+router.delete(
+    '/api/orders/:orderId',
     requireAuth,
     async (req: Request, res: Response) => {
         const { orderId } = req.params;
@@ -28,10 +34,11 @@ router.delete('/api/orders/:orderId',
             version: order.version,
             ticket: {
                 id: order.ticket.id,
-            }
+            },
         });
 
         res.status(204).send(order);
-    });
+    }
+);
 
-export { router as deleteOrderRouter };
+export default router;

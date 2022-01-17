@@ -1,7 +1,11 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
+import {
+    BadRequestError,
+    JwtHandler,
+    validateRequest,
+} from 'udemy-ticketing-common';
 import { User } from '../models/user';
-import { validateRequest, BadRequestError, JwtHandler } from 'udemy-ticketing-common';
 
 const router = express.Router();
 
@@ -18,13 +22,9 @@ const passwordValidator = body('password')
 
 router.post(
     '/api/users/signup',
-    [
-        emailValidator,
-        passwordValidator
-    ],
+    [emailValidator, passwordValidator],
     validateRequest,
     async (req: Request, res: Response) => {
-
         const { email, password } = req.body;
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -36,6 +36,7 @@ router.post(
 
         jwtHandler.addJwtToken(user, req);
         res.status(201).send(user);
-    });
+    }
+);
 
-export { router as signupRouter };
+export default router;

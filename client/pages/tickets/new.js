@@ -10,9 +10,10 @@ const NewTicket = () => {
         url: '/api/tickets',
         method: 'post',
         body: {
-            title, price
+            title,
+            price,
         },
-        onSuccess: (ticket) => router.push('/')
+        onSuccess: (ticket) => router.push('/'),
     });
 
     const onSubmit = (event) => {
@@ -23,37 +24,38 @@ const NewTicket = () => {
     const onBlur = () => {
         const value = parseFloat(price);
         if (Number.isNaN(value)) {
-            setPrice((0.00).toFixed(2));
+            setPrice((0.0).toFixed(2));
             return;
         }
 
         setPrice(value.toFixed(2));
-    }
+    };
 
     return (
         <div>
             <h1>Create a new ticket</h1>
             <form onSubmit={onSubmit}>
-                <div className='form-group'>
+                <div className="form-group">
                     <label>Title</label>
-                    <input className='form-control'
+                    <input
+                        className="form-control"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                     />
                 </div>
-                <div className='form-group'>
+                <div className="form-group">
                     <label>Price</label>
-                    <input className='form-control'
+                    <input
+                        className="form-control"
                         value={price}
                         onBlur={onBlur}
                         onChange={(e) => setPrice(e.target.value)}
                     />
                 </div>
                 {errors}
-                <button className='btn btn-primary'>Submit</button>
+                <button className="btn btn-primary">Submit</button>
             </form>
         </div>
-
     );
 };
 

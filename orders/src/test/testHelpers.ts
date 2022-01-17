@@ -13,7 +13,7 @@ import { TicketDoc } from '../models/ticket-doc';
 const signin: (config: AppConfiguration) => string = (
     config: AppConfiguration
 ) => {
-    const sessionKey = 'express:sess';
+    const sessionKey = 'session';
     const { jwtKey } = config;
 
     // build a JWT payload. {id, email}

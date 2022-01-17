@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
-import { UserPayload, createJwtFromUser } from 'udemy-ticketing-common';
+import { createJwtFromUser, UserPayload } from 'udemy-ticketing-common';
 import { AppConfiguration, AppEnv } from '../interfaces/app-configuration';
 
 const signin: (config: AppConfiguration) => string = (
     config: AppConfiguration
 ) => {
-    const sessionKey = 'express:sess';
+    const sessionKey = 'session';
     const { jwtKey } = config;
 
     // build a JWT payload. {id, email}

@@ -10,7 +10,7 @@ import Order from '../models/order';
 const createRandomId = () => mongoose.Types.ObjectId().toHexString();
 
 const signin = (config: AppConfiguration, id?: string) => {
-    const sessionKey = 'express:sess';
+    const sessionKey = 'session';
     const { jwtKey } = config;
 
     // build a JWT payload. {id, email}

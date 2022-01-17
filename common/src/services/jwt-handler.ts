@@ -1,5 +1,5 @@
-import jwt from 'jsonwebtoken';
 import { Request } from 'express';
+import jwt from 'jsonwebtoken';
 import { UserPayload } from '../interfaces/user-payload';
 
 const createJwtFromUser = (user: UserPayload, jwtKey: string) => {
